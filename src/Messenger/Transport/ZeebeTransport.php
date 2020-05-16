@@ -42,7 +42,7 @@ class ZeebeTransport implements TransportInterface
         $this->serializer = $serializer;
         $this->options    = $options;
 
-        $this->receiver = new ZeebeReceiver($connection, $serializer);
+        $this->receiver = new ZeebeReceiver($connection, $serializer, $options);
         $this->sender   = new ZeebeSender($connection, $serializer);
     }
 

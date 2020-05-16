@@ -13,23 +13,31 @@ use ZeebeTransportBundle\Messenger\Transport\Exception\ZeebeException;
 
 class ZeebeReceiver implements ReceiverInterface
 {
-    /** @var ZeebeConnection */
+    /**
+     * @var ZeebeConnection
+     */
     private $connection;
+
     /**
      * @var SerializerInterface
      */
     private $serializer;
 
-    public function __construct(ZeebeConnection $connection, SerializerInterface $serializer)
+    /**
+     * @var array
+     */
+    private $options;
+
+    public function __construct(ZeebeConnection $connection, SerializerInterface $serializer, array $options)
     {
         $this->connection = $connection;
         $this->serializer = $serializer;
+        $this->options = $options;
     }
 
     public function get(): iterable
     {
         $envelopes = [];
-
         $activeJobs = $this->connection->getActiveJobs(
             $this->options['type'] ?? 'symfony_message',
             $this->options['worker_name'] ?? 'symfony_worker',
